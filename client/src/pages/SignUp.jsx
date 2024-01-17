@@ -43,7 +43,7 @@ export default function SignUp() {
   }
   catch(error){
     setLoading(false);
-    const data = res.json()
+    console.log(error)
     setError(error.message)
   }
   }
