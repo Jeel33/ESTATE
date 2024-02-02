@@ -58,3 +58,15 @@ export const updatePassword = async(req, res, next) =>{
         return next(errorHandler(error))
     }
 }
+
+export const deleteUser = async(req, res, next)=>{
+    if(req.user.id !== req.params.id) return next(errorHandler(401, "You are not authanticated!"));
+    try{
+    const deleteUser = await User.findByIdAndDelete(req.params.id);
+    res.clearCookie('accesstoken');
+    res.status(201).json("user delted successfully!")
+    }
+    catch(error){
+        next(error)
+    }
+}
