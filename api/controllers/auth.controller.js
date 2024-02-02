@@ -25,7 +25,7 @@ export const signin = async(req, res, next)=>{
         if(!validatePassword) return next(errorHandler(401, "Username or password invalid!"))
         const token = jwt.sign({id: validateUser._id},process.env.JWT_SECRET)
         const{password:pass, ...rest} = validateUser._doc
-        res.cookie('access-token', token, {httpOnly:true}).status(201).json({
+        res.cookie('accesstoken', token, {httpOnly:true}).status(201).json({
             success: true,
             message: 'user is logged in!',
             rest
@@ -41,7 +41,7 @@ export const google = async(req, res, next) =>{
         if(user){
             const token = jwt.sign({id: user._id},process.env.JWT_SECRET)
             const{password:pass, ...rest} = user._doc
-            res.cookie('access-token', token, {httpOnly:true}).status(201).json(rest);
+            res.cookie('accesstoken', token, {httpOnly:true}).status(201).json(rest);
         }else{
             const generatedPassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
             const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
@@ -54,7 +54,7 @@ export const google = async(req, res, next) =>{
             await newUser.save();
             const token = jwt.sign({id:newUser._id},process.env.JWT_SECRET);
             const{password:pass, ...rest} = newUser._doc
-            res.cookie('access-token', token, {httpOnly:true}).status(201).json(rest); 
+            res.cookie('accesstoken', token, {httpOnly:true}).status(201).json(rest); 
         }
     }catch(error){
         next(error)
